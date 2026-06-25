@@ -1,25 +1,24 @@
 -------------------------------------------------------------------------------
 Test set: com.gradge.erp.billing.FeatureGuardIntegrationTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 10.66 s <<< FAILURE! -- in com.gradge.erp.billing.FeatureGuardIntegrationTest
-com.gradge.erp.billing.FeatureGuardIntegrationTest.featureGuard_blocksAccessWhenFeatureDisabled -- Time elapsed: 0.375 s <<< FAILURE!
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 13.63 s <<< FAILURE! -- in com.gradge.erp.billing.FeatureGuardIntegrationTest
+com.gradge.erp.billing.FeatureGuardIntegrationTest.featureGuard_blocksAccessWhenFeatureDisabled -- Time elapsed: 0.494 s <<< FAILURE!
 java.lang.AssertionError: 
 
 Expecting throwable message:
-  "EL1011E: Method call: Attempted to call method toString() on null context object"
+  "EL1011E: Method call: Attempted to call method name() on null context object"
 to contain:
   "Feature not available in your plan: POS"
 but did not.
 
 Throwable that failed the check:
 
-org.springframework.expression.spel.SpelEvaluationException: EL1011E: Method call: Attempted to call method toString() on null context object
+org.springframework.expression.spel.SpelEvaluationException: EL1011E: Method call: Attempted to call method name() on null context object
 	at org.springframework.expression.spel.ast.MethodReference.throwIfNotNullSafe(MethodReference.java:167)
 	at org.springframework.expression.spel.ast.MethodReference.getValueRef(MethodReference.java:96)
 	at org.springframework.expression.spel.ast.CompoundExpression.getValueRef(CompoundExpression.java:75)
 	at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:96)
-	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:93)
-	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:93)
+	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:95)
 	at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:116)
 	at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:273)
 	at org.springframework.cache.interceptor.CacheOperationExpressionEvaluator.key(CacheOperationExpressionEvaluator.java:106)
@@ -120,8 +119,8 @@ org.springframework.expression.spel.SpelEvaluationException: EL1011E: Method cal
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 
-com.gradge.erp.billing.FeatureGuardIntegrationTest.featureGuard_allowsAccessWhenFeatureEnabled -- Time elapsed: 0.012 s <<< FAILURE!
-org.opentest4j.AssertionFailedError: Unexpected exception thrown: org.springframework.expression.spel.SpelEvaluationException: EL1011E: Method call: Attempted to call method toString() on null context object
+com.gradge.erp.billing.FeatureGuardIntegrationTest.featureGuard_allowsAccessWhenFeatureEnabled -- Time elapsed: 0.015 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception thrown: org.springframework.expression.spel.SpelEvaluationException: EL1011E: Method call: Attempted to call method name() on null context object
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
 	at org.junit.jupiter.api.AssertDoesNotThrow.createAssertionFailedError(AssertDoesNotThrow.java:84)
 	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:53)
@@ -131,13 +130,12 @@ org.opentest4j.AssertionFailedError: Unexpected exception thrown: org.springfram
 	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-Caused by: org.springframework.expression.spel.SpelEvaluationException: EL1011E: Method call: Attempted to call method toString() on null context object
+Caused by: org.springframework.expression.spel.SpelEvaluationException: EL1011E: Method call: Attempted to call method name() on null context object
 	at org.springframework.expression.spel.ast.MethodReference.throwIfNotNullSafe(MethodReference.java:167)
 	at org.springframework.expression.spel.ast.MethodReference.getValueRef(MethodReference.java:96)
 	at org.springframework.expression.spel.ast.CompoundExpression.getValueRef(CompoundExpression.java:75)
 	at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:96)
-	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:93)
-	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:93)
+	at org.springframework.expression.spel.ast.OpPlus.getValueInternal(OpPlus.java:95)
 	at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:116)
 	at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:273)
 	at org.springframework.cache.interceptor.CacheOperationExpressionEvaluator.key(CacheOperationExpressionEvaluator.java:106)

@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.gradge.erp.tenant.TenantIsolationIntegrationTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.447 s <<< FAILURE! -- in com.gradge.erp.tenant.TenantIsolationIntegrationTest
-com.gradge.erp.tenant.TenantIsolationIntegrationTest.testTenantIsolationOnCustomerAccess -- Time elapsed: 0.023 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.413 s <<< FAILURE! -- in com.gradge.erp.tenant.TenantIsolationIntegrationTest
+com.gradge.erp.tenant.TenantIsolationIntegrationTest.testTenantIsolationOnCustomerAccess -- Time elapsed: 0.026 s <<< ERROR!
 org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
 	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.translateException(LettuceConnectionFactory.java:1858)
 	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$ExceptionTranslatingConnectionProvider.getConnection(LettuceConnectionFactory.java:1789)
