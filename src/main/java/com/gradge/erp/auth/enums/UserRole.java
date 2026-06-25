@@ -1,0 +1,24 @@
+package com.gradge.erp.auth.enums;
+
+import java.util.Set;
+
+public enum UserRole {
+    SUPER_ADMIN(Set.of("MANAGE_TENANTS", "MANAGE_SUBSCRIPTIONS", "APPROVE_EMPLOYEES", "VIEW_PLATFORM_METRICS")),
+    OWNER(Set.of("MANAGE_USERS", "VIEW_FINANCES", "RECORD_TRANSACTIONS", "MANAGE_PRODUCTS", "MANAGE_SUPPLIERS", "MANAGE_PURCHASES", "VIEW_REPORTS", "MANAGE_EMPLOYEES")),
+    ADMIN(Set.of("MANAGE_USERS", "VIEW_FINANCES", "RECORD_TRANSACTIONS", "MANAGE_PRODUCTS", "MANAGE_SUPPLIERS", "MANAGE_PURCHASES", "VIEW_REPORTS", "MANAGE_EMPLOYEES")),
+    MANAGER(Set.of("VIEW_FINANCES", "RECORD_TRANSACTIONS", "MANAGE_PRODUCTS", "MANAGE_SUPPLIERS", "MANAGE_PURCHASES", "VIEW_REPORTS")),
+    CASHIER(Set.of("RECORD_TRANSACTIONS")),
+    STORE_KEEPER(Set.of("MANAGE_PRODUCTS", "MANAGE_SUPPLIERS", "MANAGE_PURCHASES")),
+    ACCOUNTANT(Set.of("VIEW_FINANCES", "RECORD_TRANSACTIONS", "VIEW_REPORTS")),
+    HR_OFFICER(Set.of("MANAGE_EMPLOYEES", "VIEW_REPORTS"));
+
+    private final Set<String> permissions;
+
+    UserRole(Set<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public Set<String> getPermissions() {
+        return permissions;
+    }
+}

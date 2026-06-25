@@ -1,0 +1,20 @@
+package com.gradge.erp.shared.audit;
+
+public enum AuditAction {
+
+    CUSTOMER_CREATED,
+    CUSTOMER_UPDATED,
+    CUSTOMER_DELETED,
+
+    VEHICLE_CREATED,
+    VEHICLE_UPDATED,
+    VEHICLE_DELETED,
+
+    INVOICE_CREATED,
+    INVOICE_PAID,
+
+    STOCK_UPDATED,
+
+    LOGIN_SUCCESS,
+    LOGIN_FAILED
+}
