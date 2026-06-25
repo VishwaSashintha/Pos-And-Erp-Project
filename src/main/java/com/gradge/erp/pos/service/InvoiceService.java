@@ -4,11 +4,14 @@ import com.gradge.erp.billing.guard.FeatureGuard;
 import com.gradge.erp.billing.model.FeatureKey;
 import com.gradge.erp.common.event.EventPublisher;
 import com.gradge.erp.common.event.PosSaleCreatedEvent;
+import com.gradge.erp.inventory.entity.Product;
+import com.gradge.erp.inventory.repository.ProductRepository;
 import com.gradge.erp.notification.events.EventPublisherService;
 import com.gradge.erp.notification.events.SystemEvent;
 import com.gradge.erp.notification.events.SystemEventType;
 import com.gradge.erp.notification.service.NotificationService;
 import com.gradge.erp.pos.entity.Invoice;
+import com.gradge.erp.pos.entity.InvoiceItem;
 import com.gradge.erp.pos.enums.InvoiceStatus;
 import com.gradge.erp.pos.repository.InvoiceRepository;
 import com.gradge.erp.finance.service.LedgerService;
@@ -23,6 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,6 +41,7 @@ public class InvoiceService {
     private final EventPublisher eventPublisher;
     private final EventPublisherService eventPublisherService;
     private final NotificationService notificationService;
+    private final ProductRepository productRepository;
 
     public Invoice createInvoice(Invoice invoice, UUID tenantId) {
         featureGuard.check(tenantId, FeatureKey.POS);
@@ -63,6 +68,29 @@ public class InvoiceService {
         if (invoice == null) {
             throw new IllegalArgumentException("Invoice not found");
         }
+
+        // ── Pre-flight stock validation ──────────────────────────────────────────
+        StringBuilder insufficientItems = new StringBuilder();
+        for (InvoiceItem item : invoice.getItems()) {
+            Optional<Product> productOpt = productRepository
+                    .findByNameAndTenantIdAndDeletedFalse(item.getProductName(), tenantId);
+            if (productOpt.isPresent()) {
+                Product product = productOpt.get();
+                int available = product.getQuantity() != null ? product.getQuantity() : 0;
+                if (available < item.getQuantity()) {
+                    insufficientItems.append(String.format(
+                            "'%s' (available: %d, requested: %d); ",
+                            product.getName(), available, item.getQuantity()));
+                }
+            }
+            // If product not found in inventory, allow it (service/non-tracked items)
+        }
+        if (insufficientItems.length() > 0) {
+            throw new IllegalStateException(
+                    "Insufficient stock for: " + insufficientItems.toString().trim());
+        }
+
+        // Stock validated — proceed with confirmation
         invoice.setStatus(InvoiceStatus.CONFIRMED);
         Invoice saved = invoiceRepository.save(invoice);
 

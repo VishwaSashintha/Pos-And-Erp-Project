@@ -1,32 +1,35 @@
 package com.gradge.erp.notification.service;
 
+import com.gradge.erp.common.event.RabbitMQConfig;
+import com.gradge.erp.notification.model.NotificationMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class NotificationService {
 
-    private final JavaMailSender mailSender;
+    private final RabbitTemplate rabbitTemplate;
 
-    @Async
+    public void sendEmailAsync(NotificationMessage message) {
+        log.info("Queuing email to {}", message.getToEmail());
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.NOTIFICATION_EXCHANGE,
+                RabbitMQConfig.NOTIFICATION_ROUTING_KEY,
+                message
+        );
+    }
     public void sendEmail(String to, String subject, String body) {
-        log.info("Sending email to: {}, Subject: {}", to, subject);
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(body);
-            message.setFrom("no-reply@gradge.com");
-            mailSender.send(message);
-            log.info("Email sent successfully to: {}", to);
-        } catch (Exception e) {
-            log.error("Failed to send email to {}: {}. Fallback to log. Logged message body: \n{}", to, e.getMessage(), body);
-        }
+        log.info("Queuing legacy email call to {}", to);
+        NotificationMessage msg = NotificationMessage.builder()
+                .toEmail(to)
+                .subject(subject)
+                .body(body)
+                .type("GENERAL")
+                .build();
+        sendEmailAsync(msg);
     }
 }

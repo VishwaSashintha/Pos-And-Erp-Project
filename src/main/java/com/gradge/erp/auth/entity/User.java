@@ -36,4 +36,21 @@ public class User extends BaseEntity {
 
     @Builder.Default
     private boolean active = true;
+
+    @Builder.Default
+    @Column(name = "mfa_enabled", nullable = false)
+    private boolean mfaEnabled = false;
+
+    @Column(name = "mfa_secret")
+    private String mfaSecret;
+
+    @Builder.Default
+    @Column(name = "failed_login_attempts", nullable = false)
+    private int failedLoginAttempts = 0;
+
+    @Column(name = "account_locked_until")
+    private java.time.LocalDateTime accountLockedUntil;
+
+    @Column(name = "password_changed_at")
+    private java.time.LocalDateTime passwordChangedAt;
 }

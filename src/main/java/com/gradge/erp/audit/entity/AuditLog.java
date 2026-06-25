@@ -7,13 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(
-        name = "audit_logs",
-        indexes = {
-                @Index(name = "idx_audit_log_tenant", columnList = "tenant_id"),
-                @Index(name = "idx_audit_log_action", columnList = "action")
-        }
-)
+@Table(name = "audit_logs")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,26 +16,24 @@ import java.util.UUID;
 public class AuditLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(name = "tenant_id", nullable = false)
+    private UUID tenantId;
+
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "action", nullable = false)
     private String action;
 
     @Column(name = "entity_name")
     private String entityName;
 
-    @Column(name = "entity_id")
-    private String entityId;
-
-    private String username;
-
-    @Column(name = "tenant_id", nullable = false)
-    private UUID tenantId;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "payload", columnDefinition = "TEXT")
     private String payload;
 
-    @Column(nullable = false)
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
 }

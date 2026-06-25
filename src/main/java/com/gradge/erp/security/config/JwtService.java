@@ -17,13 +17,13 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final Key SIGNING_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long EXPIRATION_TIME = 86400000; 
+    private static final long EXPIRATION_TIME = 900000; // 15 mins
 
-    public String generateToken(String username, String role, UUID tenantId) {
+    public String generateToken(String email, String role, UUID tenantId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
         claims.put("tenantId", tenantId != null ? tenantId.toString() : null);
-        return createToken(claims, username);
+        return createToken(claims, email);
     }
 
     private String createToken(Map<String, Object> claims, String subject) {

@@ -24,8 +24,8 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public RefreshToken createRefreshToken(String username, UUID tenantId) {
-        User user = userRepository.findByUsernameAndTenantId(username, tenantId)
+    public RefreshToken createRefreshToken(String email, UUID tenantId) {
+        User user = userRepository.findByEmailAndTenantId(email, tenantId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         refreshTokenRepository.deleteByUser(user);

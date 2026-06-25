@@ -30,6 +30,10 @@ public class Invoice extends BaseEntity {
     private JobCard jobCard;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pos_shift_id")
+    private PosShift posShift;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "tenant_id",
             insertable = false,
@@ -42,6 +46,13 @@ public class Invoice extends BaseEntity {
 
     @Builder.Default
     private BigDecimal discount = BigDecimal.ZERO;
+
+    @Column(name = "discount_type")
+    @Builder.Default
+    private String discountType = "FIXED"; // FIXED or PERCENTAGE
+
+    @Builder.Default
+    private String notes = "";
 
     @Builder.Default
     private BigDecimal tax = BigDecimal.ZERO;

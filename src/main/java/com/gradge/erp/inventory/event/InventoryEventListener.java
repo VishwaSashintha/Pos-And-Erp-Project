@@ -55,8 +55,9 @@ public class InventoryEventListener {
                 int deductQty = lineItem.getQuantity();
 
                 if (currentStock < deductQty) {
-                    log.warn("INVENTORY: Insufficient stock for '{}'. Available: {}, Requested: {}",
+                    log.warn("INVENTORY: Insufficient stock for '{}'. Available: {}, Requested: {}. Clamping to zero.",
                             product.getName(), currentStock, deductQty);
+                    deductQty = currentStock; // Clamp — don't allow negative stock
                 }
 
                 product.setQuantity(currentStock - deductQty);

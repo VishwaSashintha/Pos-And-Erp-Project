@@ -14,6 +14,8 @@ public class RateLimitFilter implements Filter {
 
     private final RateLimiterService rateLimiterService;
 
+    private final com.gradge.erp.tenant.service.TenantService tenantService;
+
     @Override
     public void doFilter(ServletRequest request,
                          ServletResponse response,
@@ -23,8 +25,19 @@ public class RateLimitFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String key = req.getRemoteAddr();
+        int limit = 100;
 
-        if (!rateLimiterService.isAllowed(key)) {
+        String tenantIdStr = req.getHeader("X-Tenant-ID");
+        if (tenantIdStr != null && !tenantIdStr.isBlank()) {
+            try {
+                java.util.UUID tenantId = java.util.UUID.fromString(tenantIdStr);
+                limit = tenantService.getApiLimit(tenantId);
+            } catch (Exception e) {
+                // Ignore invalid UUID, fallback to default limit
+            }
+        }
+
+        if (!rateLimiterService.isAllowed(key, limit)) {
             res.setStatus(429);
             res.getWriter().write("Too many requests - rate limit exceeded");
             return;

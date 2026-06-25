@@ -12,10 +12,9 @@ public class RateLimiterService {
 
     private final StringRedisTemplate redisTemplate;
 
-    private static final int LIMIT = 100;
     private static final long WINDOW_SECONDS = 60;
 
-    public boolean isAllowed(String key) {
+    public boolean isAllowed(String key, int limit) {
         String redisKey = "rate_limit:" + key;
 
         Long currentCount = redisTemplate.opsForValue().increment(redisKey);
@@ -25,6 +24,6 @@ public class RateLimiterService {
             redisTemplate.expire(redisKey, WINDOW_SECONDS, TimeUnit.SECONDS);
         }
 
-        return currentCount != null && currentCount <= LIMIT;
+        return currentCount != null && currentCount <= limit;
     }
 }

@@ -32,6 +32,15 @@ public class Stock {
 
     private Double quantity;
 
+    @Column(name = "batch_number")
+    private String batchNumber;
+
+    @Column(name = "serial_number")
+    private String serialNumber;
+
+    @Column(name = "expiry_date")
+    private java.time.LocalDate expiryDate;
+
     @ManyToOne
     @JoinColumn(name = "tenant_id", nullable = false)
     private Tenant tenant;

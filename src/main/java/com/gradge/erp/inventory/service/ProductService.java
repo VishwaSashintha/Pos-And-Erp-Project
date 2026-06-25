@@ -1,6 +1,6 @@
 package com.gradge.erp.inventory.service;
 
-import com.gradge.erp.audit.annotation.Auditable;
+import com.gradge.erp.common.audit.Auditable;
 import com.gradge.erp.inventory.entity.Product;
 import com.gradge.erp.inventory.repository.ProductRepository;
 import com.gradge.erp.tenant.service.TenantService;

@@ -19,6 +19,10 @@ public class RabbitMQConfig {
     public static final String EXCHANGE_DLX = "bos.dlx";
     public static final String QUEUE_DLQ = "bos.dlq";
 
+    public static final String NOTIFICATION_EXCHANGE = "bos.notification.exchange";
+    public static final String NOTIFICATION_QUEUE = "bos.notification.queue";
+    public static final String NOTIFICATION_ROUTING_KEY = "notification.send";
+
     @Bean
     public DirectExchange eventsExchange() {
         return new DirectExchange(EXCHANGE_NAME);
@@ -81,5 +85,23 @@ public class RabbitMQConfig {
     @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public DirectExchange notificationExchange() {
+        return new DirectExchange(NOTIFICATION_EXCHANGE);
+    }
+
+    @Bean
+    public Queue notificationQueue() {
+        return QueueBuilder.durable(NOTIFICATION_QUEUE)
+                .withArgument("x-dead-letter-exchange", EXCHANGE_DLX)
+                .withArgument("x-dead-letter-routing-key", "dlq")
+                .build();
+    }
+
+    @Bean
+    public Binding bindingNotification() {
+        return BindingBuilder.bind(notificationQueue()).to(notificationExchange()).with(NOTIFICATION_ROUTING_KEY);
     }
 }

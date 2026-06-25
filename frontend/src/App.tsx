@@ -16,6 +16,10 @@ import { Accounting } from './pages/Accounting';
 import { Employees } from './pages/Employees';
 import { SuperAdminDashboard } from './pages/SuperAdminDashboard';
 import { Onboard } from './pages/Onboard';
+import { HRHub } from './pages/HRHub';
+import { Assets } from './pages/Assets';
+import { PosShifts } from './pages/PosShifts';
+import { Billing } from './pages/Billing';
 import './App.css';
 
 
@@ -186,6 +190,42 @@ const AppContent: React.FC = () => {
         element={
           <ProtectedLayout requiredPermissions={['VIEW_FINANCES', 'RECORD_TRANSACTIONS']}>
             <Accounting />
+          </ProtectedLayout>
+        }
+      />
+
+      <Route
+        path="/hr"
+        element={
+          <ProtectedLayout requiredPermissions={['MANAGE_HR']}>
+            <HRHub />
+          </ProtectedLayout>
+        }
+      />
+
+      <Route
+        path="/assets"
+        element={
+          <ProtectedLayout requiredPermissions={['VIEW_ASSETS']}>
+            <Assets />
+          </ProtectedLayout>
+        }
+      />
+
+      <Route
+        path="/shifts"
+        element={
+          <ProtectedLayout requiredPermissions={['MANAGE_POS']}>
+            <PosShifts />
+          </ProtectedLayout>
+        }
+      />
+
+      <Route
+        path="/billing"
+        element={
+          <ProtectedLayout requiredPermissions={['MANAGE_BILLING']}>
+            <Billing />
           </ProtectedLayout>
         }
       />

@@ -38,6 +38,8 @@ public class AuthController {
                 request.getPassword(),
                 request.getEmail(),
                 request.getIndustry(),
+                request.getSubdomain(),
+                request.getThemeColor(),
                 request.getSelectedModules()
         );
         return ApiResponse.success("Tenant registered successfully", result);
@@ -61,7 +63,7 @@ public class AuthController {
     @PostMapping("/login")
     public ApiResponse<Map<String, Object>> login(@Valid @RequestBody LoginRequestDto request) {
         Map<String, Object> result = authService.login(
-                request.getUsername(),
+                request.getEmail(),
                 request.getPassword()
         );
         return ApiResponse.success("Login successful", result);
@@ -73,7 +75,7 @@ public class AuthController {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    String accessToken = jwtService.generateToken(user.getUsername(), user.getRole().name(), user.getTenantId());
+                    String accessToken = jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getTenantId());
                     TokenRefreshResponseDto response = TokenRefreshResponseDto.builder()
                             .token(accessToken)
                             .refreshToken(request.getRefreshToken())
@@ -129,5 +131,29 @@ public class AuthController {
     public ApiResponse<String> resetPassword(@Valid @RequestBody ResetPasswordRequestDto request) {
         authService.resetPassword(request.getToken(), request.getNewPassword());
         return ApiResponse.success("Password has been reset successfully. You can now login.");
+    }
+
+    @PostMapping("/mfa/verify")
+    public ApiResponse<Map<String, Object>> verifyMfa(@Valid @RequestBody MfaVerifyRequestDto request) {
+        Map<String, Object> result = authService.verifyMfa(request.getEmail(), request.getCode());
+        return ApiResponse.success("MFA Verification successful", result);
+    }
+
+    @PostMapping("/mfa/setup")
+    @PreAuthorize("isAuthenticated()")
+    public ApiResponse<Map<String, String>> setupMfa(@Valid @RequestBody MfaSetupRequestDto request) {
+        try {
+            Map<String, String> result = authService.setupMfa(request.getEmail());
+            return ApiResponse.success("MFA setup initiated", result);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate MFA setup data", e);
+        }
+    }
+
+    @PostMapping("/mfa/confirm")
+    @PreAuthorize("isAuthenticated()")
+    public ApiResponse<String> confirmMfa(@Valid @RequestBody MfaVerifyRequestDto request) {
+        authService.confirmMfaSetup(request.getEmail(), request.getCode());
+        return ApiResponse.success("MFA has been enabled successfully.");
     }
 }

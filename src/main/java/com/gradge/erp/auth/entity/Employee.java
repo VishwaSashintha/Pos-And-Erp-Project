@@ -36,4 +36,14 @@ public class Employee extends BaseEntity {
     private LocalDateTime activationTokenExpiry;
 
     private String department;
+
+    private String designation;
+
+    private String phone;
+
+    @Column(name = "hire_date")
+    private java.time.LocalDate hireDate;
+
+    @Column(name = "basic_salary")
+    private java.math.BigDecimal basicSalary;
 }

@@ -119,7 +119,7 @@ public class BosEventAndOnboardingIntegrationTest {
 
         // Login as Owner
         LoginRequestDto login = new LoginRequestDto();
-        login.setUsername("retailowner");
+        login.setEmail("retailowner@test.com");
         login.setPassword("ownerpass123");
 
         String loginRes = mockMvc.perform(post("/api/auth/login")
@@ -133,7 +133,7 @@ public class BosEventAndOnboardingIntegrationTest {
 
         // Login as Super Admin (Default seeded user on startup)
         LoginRequestDto saLogin = new LoginRequestDto();
-        saLogin.setUsername("superadmin");
+        saLogin.setEmail("superadmin@lightbusiness.com");
         saLogin.setPassword("superadmin123");
 
         String saLoginRes = mockMvc.perform(post("/api/auth/login")

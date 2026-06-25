@@ -31,7 +31,7 @@ export const Login: React.FC = () => {
   const [isRegister, setIsRegister] = useState(false);
   
   // Login state
-  const [loginUsername, setLoginUsername] = useState('');
+  const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
   // Registration state
@@ -48,14 +48,14 @@ export const Login: React.FC = () => {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!loginUsername || !loginPassword) {
+    if (!loginEmail || !loginPassword) {
       setError('Please fill in all fields.');
       return;
     }
     setError(null);
     setLoading(true);
     try {
-      await login(loginUsername, loginPassword);
+      await login(loginEmail, loginPassword);
     } catch (err: any) {
       setError(err.message || 'Login failed.');
     } finally {
@@ -156,18 +156,18 @@ export const Login: React.FC = () => {
           <form onSubmit={handleLoginSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">
-                Username
+                Email Address
               </label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500">
-                  <User size={16} />
+                  <Mail size={16} />
                 </span>
                 <input
-                  type="text"
+                  type="email"
                   required
-                  placeholder="Enter administrator username"
-                  value={loginUsername}
-                  onChange={(e) => setLoginUsername(e.target.value)}
+                  placeholder="Enter your email address"
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors text-sm"
                 />
               </div>

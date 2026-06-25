@@ -17,7 +17,7 @@ public class SubscriptionService {
 
     private final TenantRepository tenantRepository;
 
-    @Cacheable(value = "featureAccess", key = "#tenantId.toString() + '-' + #feature.name()")
+    @Cacheable(value = "featureAccess", key = "(#tenantId != null ? #tenantId.toString() : 'null') + '-' + #feature.name()")
     public boolean hasFeatureAccess(UUID tenantId, FeatureKey feature) {
         Tenant tenant = tenantRepository.findById(tenantId).orElse(null);
         if (tenant == null) {

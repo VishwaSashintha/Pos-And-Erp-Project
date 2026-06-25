@@ -1,0 +1,4 @@
+-- V1__init.sql
+-- Baseline migration for Flyway. 
+-- Schema is managed by Hibernate ddl-auto=update for initial MVP, and Flyway baseline is enabled.
+-- Future schema changes (V2, V3) should be explicitly defined as SQL migrations here.

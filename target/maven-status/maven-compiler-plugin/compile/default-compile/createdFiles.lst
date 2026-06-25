@@ -2,6 +2,7 @@ com\gradge\erp\workshop\dto\JobCardMapperImpl.class
 com\gradge\erp\finance\dto\FinanceMapperImpl.class
 com\gradge\erp\inventory\dto\CategoryMapperImpl.class
 com\gradge\erp\inventory\dto\ProductMapperImpl.class
+com\gradge\erp\billing\service\BillingService$1.class
 com\gradge\erp\workshop\dto\InspectionMapperImpl.class
 com\gradge\erp\customer\dto\CustomerMapperImpl.class
 com\gradge\erp\purchase\dto\PurchaseOrderMapperImpl.class

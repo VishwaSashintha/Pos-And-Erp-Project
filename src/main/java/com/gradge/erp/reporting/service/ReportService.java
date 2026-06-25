@@ -164,4 +164,51 @@ public class ReportService {
         cell.setCellValue(value);
         cell.setCellStyle(style);
     }
+
+    // ── CSV Export ───────────────────────────────────────────────────
+
+    public byte[] generateSalesCsv(UUID tenantId) {
+        List<Invoice> invoices = invoiceRepository.findByTenant_IdAndDeletedFalse(tenantId);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Invoice Number,Customer,Status,SubTotal,Discount,Tax,Total,Paid\n");
+        for (Invoice inv : invoices) {
+            sb.append(csvEscape(inv.getInvoiceNumber())).append(",");
+            sb.append(csvEscape(inv.getCustomer() != null ? inv.getCustomer().getName() : "Walk-in")).append(",");
+            sb.append(inv.getStatus() != null ? inv.getStatus().name() : "").append(",");
+            sb.append(inv.getSubTotal() != null ? inv.getSubTotal() : 0).append(",");
+            sb.append(inv.getDiscount() != null ? inv.getDiscount() : 0).append(",");
+            sb.append(inv.getTax() != null ? inv.getTax() : 0).append(",");
+            sb.append(inv.getTotal() != null ? inv.getTotal() : 0).append(",");
+            sb.append(inv.getPaidAmount() != null ? inv.getPaidAmount() : 0).append("\n");
+        }
+        return sb.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
+
+    public byte[] generateInventoryCsv(UUID tenantId) {
+        List<Product> products = productRepository.findByTenant_IdAndDeletedFalse(tenantId);
+        StringBuilder sb = new StringBuilder();
+        sb.append("SKU,Name,Category,Quantity,Reorder Level,Cost Price,Selling Price,Stock Value,Status\n");
+        for (Product p : products) {
+            sb.append(csvEscape(p.getSku())).append(",");
+            sb.append(csvEscape(p.getName())).append(",");
+            sb.append(csvEscape(p.getCategory() != null ? p.getCategory().getName() : "")).append(",");
+            sb.append(p.getQuantity() != null ? p.getQuantity() : 0).append(",");
+            sb.append(p.getReorderLevel() != null ? p.getReorderLevel() : 0).append(",");
+            sb.append(p.getCostPrice() != null ? p.getCostPrice() : 0).append(",");
+            sb.append(p.getSellingPrice() != null ? p.getSellingPrice() : 0).append(",");
+            double stockVal = (p.getQuantity() != null && p.getCostPrice() != null) ? p.getQuantity() * p.getCostPrice() : 0;
+            sb.append(stockVal).append(",");
+            boolean isLow = p.getQuantity() != null && p.getReorderLevel() != null && p.getQuantity() <= p.getReorderLevel();
+            sb.append(isLow ? "LOW STOCK" : "OK").append("\n");
+        }
+        return sb.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    }
+
+    private String csvEscape(String val) {
+        if (val == null) return "";
+        if (val.contains(",") || val.contains("\"") || val.contains("\n")) {
+            return "\"" + val.replace("\"", "\"\"") + "\"";
+        }
+        return val;
+    }
 }

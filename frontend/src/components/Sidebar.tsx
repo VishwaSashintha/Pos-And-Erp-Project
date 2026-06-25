@@ -27,8 +27,12 @@ export const Sidebar: React.FC = () => {
     { name: 'Inventory & Products', path: '/products', icon: Package, requiredPermissions: ['MANAGE_PRODUCTS'], requiredModule: 'INVENTORY' },
     { name: 'Suppliers', path: '/suppliers', icon: Truck, requiredPermissions: ['MANAGE_SUPPLIERS'], requiredModule: 'INVENTORY' },
     { name: 'Sales / POS', path: '/sales', icon: ShoppingCart, requiredPermissions: ['RECORD_TRANSACTIONS'], requiredModule: 'POS' },
+    { name: 'POS Shifts', path: '/shifts', icon: FileText, requiredPermissions: ['MANAGE_POS'], requiredModule: 'POS' },
     { name: 'Purchases', path: '/purchases', icon: FileText, requiredPermissions: ['MANAGE_PURCHASES'], requiredModule: 'INVENTORY' },
     { name: 'Accounting', path: '/accounting', icon: TrendingUp, requiredPermissions: ['VIEW_FINANCES', 'RECORD_TRANSACTIONS'], requiredModule: 'ACCOUNTING' },
+    { name: 'HR Hub', path: '/hr', icon: Users, requiredPermissions: ['MANAGE_HR'], requiredModule: 'HR' },
+    { name: 'Assets', path: '/assets', icon: Package, requiredPermissions: ['VIEW_ASSETS'], requiredModule: 'ASSETS' },
+    { name: 'Billing & Subscriptions', path: '/billing', icon: ShieldAlert, requiredPermissions: ['MANAGE_BILLING'] },
   ];
 
   const visibleMenuItems = menuItems.filter((item) => {

@@ -1,6 +1,6 @@
 package com.gradge.erp.customer.service;
 
-import com.gradge.erp.audit.annotation.Auditable;
+import com.gradge.erp.common.audit.Auditable;
 import com.gradge.erp.customer.entity.Customer;
 import com.gradge.erp.customer.repository.CustomerRepository;
 import com.gradge.erp.tenant.service.TenantService;

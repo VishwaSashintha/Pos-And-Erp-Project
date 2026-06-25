@@ -70,7 +70,7 @@ public class TenantIsolationIntegrationTest {
 
         // Login Tenant A
         LoginRequestDto loginA = new LoginRequestDto();
-        loginA.setUsername("adminA");
+        loginA.setEmail("admina@test.com");
         loginA.setPassword("passwordA");
 
         String loginResA = mockMvc.perform(post("/api/auth/login")
@@ -102,7 +102,7 @@ public class TenantIsolationIntegrationTest {
 
         // Login Tenant B
         LoginRequestDto loginB = new LoginRequestDto();
-        loginB.setUsername("adminB");
+        loginB.setEmail("adminb@test.com");
         loginB.setPassword("passwordB");
 
         String loginResB = mockMvc.perform(post("/api/auth/login")

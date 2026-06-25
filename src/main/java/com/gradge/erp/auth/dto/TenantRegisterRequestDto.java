@@ -31,5 +31,8 @@ public class TenantRegisterRequestDto {
 
     private String industry;
 
+    private String subdomain;
+    private String themeColor;
+
     private java.util.List<com.gradge.erp.billing.model.AppModule> selectedModules;
 }
